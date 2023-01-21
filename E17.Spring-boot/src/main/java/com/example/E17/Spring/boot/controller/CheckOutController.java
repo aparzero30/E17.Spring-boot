@@ -89,27 +89,33 @@ public class CheckOutController {
 
         int productId = checkOut.getProductId();
         int ckQuantity = checkOut.getProductQuantity();
-        Product product = productService.findProduct(String.valueOf(productId));
-        int pQuantity =product.getQuantity();
 
-        System.out.println(" i got my "+product.getProductName()+"and i have "+product.getQuantity());
+        try {
+            Product product = productService.findProduct(String.valueOf(productId));
+            int pQuantity =product.getQuantity();
 
-
-
-        if(pQuantity!=0){
-            product.setQuantity(pQuantity-1);
             System.out.println(" i got my "+product.getProductName()+"and i have "+product.getQuantity());
-            checkOut.setProductQuantity(ckQuantity+1);
-            checkOut.setProductTotal((ckQuantity+1)*checkOut.getPrice());
-            checkOutService.addCheckOut(checkOut);
 
-            productService.addProduct(product);
+
+
+            if(pQuantity!=0){
+                product.setQuantity(pQuantity-1);
+                System.out.println(" i got my "+product.getProductName()+"and i have "+product.getQuantity());
+                checkOut.setProductQuantity(ckQuantity+1);
+                checkOut.setProductTotal((ckQuantity+1)*checkOut.getPrice());
+                checkOutService.addCheckOut(checkOut);
+
+                productService.addProduct(product);
+
+            }
+
+
+
+
+        }catch (Exception e){
+
 
         }
-
-
-
-
 
         model.addAttribute("checkOuts", checkOutService.findByUserName(x));
 
@@ -130,27 +136,35 @@ public class CheckOutController {
 
         int productId = checkOut.getProductId();
         int ckQuantity = checkOut.getProductQuantity();
-        Product product = productService.findProduct(String.valueOf(productId));
-        int pQuantity =product.getQuantity();
-
-        System.out.println(" i got my "+product.getProductName()+"and i have "+product.getQuantity());
 
 
 
-        if(ckQuantity!=0){
-            product.setQuantity(pQuantity+1);
+        try{
+            Product product = productService.findProduct(String.valueOf(productId));
+            int pQuantity =product.getQuantity();
+
             System.out.println(" i got my "+product.getProductName()+"and i have "+product.getQuantity());
-            checkOut.setProductQuantity(ckQuantity-1);
-            checkOut.setProductTotal((ckQuantity-1)*checkOut.getPrice());
-            checkOutService.addCheckOut(checkOut);
-            productService.addProduct(product);
 
-            if(ckQuantity-1==0){
-                checkOutService.deleteCheckOut(checkOut);
+
+
+            if(ckQuantity!=0){
+                product.setQuantity(pQuantity+1);
+                System.out.println(" i got my "+product.getProductName()+"and i have "+product.getQuantity());
+                checkOut.setProductQuantity(ckQuantity-1);
+                checkOut.setProductTotal((ckQuantity-1)*checkOut.getPrice());
+                checkOutService.addCheckOut(checkOut);
+                productService.addProduct(product);
+
+                if(ckQuantity-1==0){
+                    checkOutService.deleteCheckOut(checkOut);
+                }
+
+
+
             }
 
-
-
+        }catch (Exception e){
+            checkOutService.deleteCheckOut(checkOut);
         }
 
 

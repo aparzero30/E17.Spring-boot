@@ -42,7 +42,9 @@ public CheckOut findByCheckOutId(Integer checkOutId){
 
 
     public void deleteCheckOut(CheckOut checkOut){
-        checkOutRepository.delete(checkOut);
+
+    checkOutRepository.delete(checkOut);
+
     }
 
 
